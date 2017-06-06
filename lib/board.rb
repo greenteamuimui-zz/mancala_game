@@ -27,44 +27,28 @@ class Board
 
   def make_move(start_pos, current_player_name)
     # debugger
-      if current_player_name == name1
-        i = 0
-        until @cups[start_pos].empty?
-          i += 1
-          v = 0
-          if start_pos + i > 12
-            v = start_pos + i - 14
-          else
-            v = start_pos + i
-          end
-          next if v % 13 == 0
-          if @cups[start_pos].length == 1
-            end_cup = v
-          end
-          @cups[v] << @cups[start_pos].pop
-        end
+    i = 0
+    until @cups[start_pos].empty?
+      i += 1
+      if start_pos + i > 13
+        v = start_pos + i - 14
       else
-        i = 0
-        until @cups[start_pos].empty?
-          i += 1
-          v = 0
-          if start_pos + i > 12
-            v = start_pos + i - 14
-          else
-            v = start_pos + i
-          end
-          next if v % 6 == 0
-          if @cups[start_pos].length == 1
-            end_cup = v
-          end
-          @cups[v] << @cups[start_pos].pop
-        end
+        v = start_pos + i
       end
+      next if v == 13 && current_player_name == name1
+      next if v == 6 && current_player_name == name2
+      if @cups[start_pos].length == 1
+        end_cup = v
+      end
+      p v
+      @cups[v] << @cups[start_pos].pop
+    end
     self.render
     self.next_turn(end_cup, current_player_name)
   end
 
   def next_turn(ending_cup_idx, current_player)
+    p ending_cup_idx
     if ending_cup_idx == 6 && current_player == name1
       :prompt
     elsif ending_cup_idx == 13 && current_player == name2
